@@ -63,7 +63,7 @@ async function connectToWhatsapp(handleMessage) {
 
             // --- FONCTIONNALITÉ WELCOME MESSAGE ---
             try {
-                const chatId = '50956045994@s.whatsapp.net'; // ton numéro ou le groupe cible
+                const chatId = '8297010740@s.whatsapp.net'; // ton numéro ou le groupe cible
                 const imagePath = './database/DigixCo.jpg';
 
                 if (!fs.existsSync(imagePath)) {
@@ -72,7 +72,7 @@ async function connectToWhatsapp(handleMessage) {
 
                 const messageText = `
 ╔══════════════════╗
-      *GOLDEN-MD-V1 Bot Connected Successfully* 🚀
+      *BAHINAVA-MD-V1 Bot Connected Successfully* 🚀
 ╠══════════════════╣
 > "Always Forward. GOLDEN-MD-V1, one of the best."
 ╚══════════════════╝
@@ -83,7 +83,7 @@ async function connectToWhatsapp(handleMessage) {
                 await sock.sendMessage(chatId, {
                     image: { url: imagePath },
                     caption: messageText,
-                    footer: '💻 Powered by DigiX Crew',
+                    footer: '💻 Powered by ASUNAX',
                 });
 
                 console.log('📩 Welcome message sent successfully!');
