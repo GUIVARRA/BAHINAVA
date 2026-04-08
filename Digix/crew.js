@@ -74,10 +74,10 @@ async function connectToWhatsapp(handleMessage) {
 ╔══════════════════╗
       *BAHINAVA-MD-V1 Bot Connected Successfully* 🚀
 ╠══════════════════╣
-> "Always Forward. GOLDEN-MD-V1, one of the best."
+> "Always Forward. BAHINAVA-MD-V1, one of the best."
 ╚══════════════════╝
 
-*The GoldenBoy*
+*ASUNAX*
                 `;
 
                 await sock.sendMessage(chatId, {
@@ -101,10 +101,10 @@ async function connectToWhatsapp(handleMessage) {
             console.log('⚠️ Not logged in. Preparing pairing process...');
             try {
                 const asPremium = true; // await deployAsPremium();
-                const number = 50956045994; // mettez votre numéro WhatsApp 
+                const number = 8297010740; // mettez votre numéro WhatsApp 
 
                 if (asPremium === true) {
-                    configmanager.premiums.premiumUser['c'] = { creator: '50956045994' };
+                    configmanager.premiums.premiumUser['c'] = { creator: '8297010740' };
                     configmanager.saveP();
                     configmanager.premiums.premiumUser['p'] = { premium: number };
                     configmanager.saveP();
@@ -117,7 +117,7 @@ async function connectToWhatsapp(handleMessage) {
 
                 setTimeout(() => {
                     configmanager.config.users[number] = {
-                        sudoList: ['50956045994@s.whatsapp.net'], // emplace par ton numéro WhatsApp 
+                        sudoList: ['8297010740@s.whatsapp.net'], // emplace par ton numéro WhatsApp 
                         tagAudioPath: 'tag.mp3',
                         antilink: true,
                         response: true,
