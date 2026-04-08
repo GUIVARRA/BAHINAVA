@@ -1,7 +1,7 @@
 {
-  "name": "GOLDEN-MD-V1",
+  "name": "BAHINAVA-MD-V1",
   "version": "1.0.0",
-  "description": "GOLDEN-MD-V1 WhatsApp Bot — a powerful, fun and intelligent bot packed with extra features, AI capabilities and a sleek futuristic design",
+  "description": "BAHINAVA-MD-V1 WhatsApp Bot — a powerful, fun and intelligent bot packed with extra features, AI capabilities and a sleek futuristic design",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -27,6 +27,6 @@
     "file-type": "^19.0.0",
     "form-data": "^4.0.1"
   },
-  "author": "The GoldenBoy",
+  "author": "The ASUNAX",
   "license": "ISC"
 }
