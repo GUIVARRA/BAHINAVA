@@ -9,7 +9,9 @@ import stylizedChar from "../utils/fancy.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
+// Fixed paths
+const audioPath = path.join(__dirname, "../database/DigiX.mp3");
+const imagePath = path.join(__dirname, "../database/menu.jpg");
 
 function formatUptime(seconds) {
   const h = Math.floor(seconds / 3600);
@@ -30,44 +32,32 @@ function getCategoryIcon(category) {
   if (c === "owner") return "✨";
   if (c === "creator") return "👑";
 
-  return "🎯"; 
+  return "🎯";
 }
-
 
 export default async function info(client, message) {
   try {
     const remoteJid = message.key.remoteJid;
     const userName = message.pushName || "Unknown";
 
-    
     const usedRam = (process.memoryUsage().rss / 1024 / 1024).toFixed(1);
     const totalRam = (os.totalmem() / 1024 / 1024).toFixed(1);
     const uptime = formatUptime(process.uptime());
     const platform = os.platform();
 
-   
     const botId = client.user.id.split(":")[0];
     const prefix = configs.config.users?.[botId]?.prefix || "!";
 
-    
     const now = new Date();
     const daysFR = [
-      "Dimanche",
-      "Lundi",
-      "Mardi",
-      "Mercredi",
-      "Jeudi",
-      "Vendredi",
-      "Samedi"
+      "Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"
     ];
 
-    const date =
-      `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`;
+    const date = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`;
     const day = daysFR[now.getDay()];
 
-    
     const handlerPath = path.join(__dirname, "../events/messageHandler.js");
-    const handlerCode = fs.readFileSync(handlerPath, "utf-8",);
+    const handlerCode = fs.readFileSync(handlerPath, "utf-8");
 
     const commandRegex =
       /case\s+['"](\w+)['"]\s*:\s*\/\/\s*@cat:\s*([^\n\r]+)/g;
@@ -83,9 +73,8 @@ export default async function info(client, message) {
       categories[category].push(command);
     }
 
-    
-let menu = `
-GOLDEN-MD-V1 🎯
+    let menu = `
+BAHINAVA-MD-V1 🎯
 ────────────
 • Prefix   : ${prefix}
 • User     : ${stylizedChar(userName)}
@@ -100,46 +89,60 @@ GOLDEN-MD-V1 🎯
     for (const [category, commands] of Object.entries(categories)) {
       const icon = getCategoryIcon(category);
       const catName = stylizedChar(category);
-      menu += `┏━━━ ${icon} ${catName} ━━━
-`;
-commands.forEach(cmd => {
-  menu += `┃   › ${stylizedChar(cmd)}\n`;
-});
-menu += `┗━━━━━━━━━━━━━━━
-`;
+
+      menu += `┏━━━ ${icon} ${catName} ━━━\n`;
+
+      commands.forEach(cmd => {
+        menu += `┃   › ${stylizedChar(cmd)}\n`;
+      });
+
+      menu += `┗━━━━━━━━━━━━━━━\n`;
     }
 
     menu = menu.trim();
 
-    
     try {
       const device = getDevice(message.key.id);
+      const audioExists = fs.existsSync(audioPath);
 
       if (device === "android") {
         await client.sendMessage(remoteJid, {
-          image: { url: "database/menu.jpg" },
-          caption: stylizedChar(menu),
-          contextInfo: {
-            participant: "0@s.whatsapp.net",
-            remoteJid: "status@broadcast",
-            quotedMessage: { conversation: " GUIVARRA-MD-V1" },
-            isForwarded: true
-          }
+          image: { url: imagePath },
+          caption: stylizedChar(menu)
         });
       } else {
-        await client.sendMessage(
-          remoteJid,
-          {
-            video: { url: "database/DigiX.mp3" },
-            caption: stylizedChar(menu)
-          },
-          { quoted: message }
-        );
+        if (audioExists) {
+          await client.sendMessage(
+            remoteJid,
+            {
+              audio: { url: audioPath },
+              mimetype: "audio/mpeg",
+              ptt: false
+            },
+            { quoted: message }
+          );
+
+          await client.sendMessage(
+            remoteJid,
+            { text: stylizedChar(menu) },
+            { quoted: message }
+          );
+
+        } else {
+          await client.sendMessage(
+            remoteJid,
+            {
+              text: "Audio file not found.\n\n" + stylizedChar(menu)
+            },
+            { quoted: message }
+          );
+        }
       }
+
     } catch (err) {
       await client.sendMessage(
         remoteJid,
-        { text: "❌ Erreur lors de l'envoi du menu : " + err.message },
+        { text: "Error sending menu: " + err.message },
         { quoted: message }
       );
     }
