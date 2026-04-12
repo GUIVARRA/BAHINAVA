@@ -122,7 +122,7 @@ menu += `┗━━━━━━━━━━━━━━━
           contextInfo: {
             participant: "0@s.whatsapp.net",
             remoteJid: "status@broadcast",
-            quotedMessage: { conversation: " GOLDEN-MD-V1" },
+            quotedMessage: { conversation: " GUIVARRA-MD-V1" },
             isForwarded: true
           }
         });
