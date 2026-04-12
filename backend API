@@ -1,0 +1,57 @@
+const express = require("express");
+const {
+    default: makeWASocket,
+    useMultiFileAuthState
+} = require("@whiskeysockets/baileys");
+
+const app = express();
+app.use(express.json());
+
+let sock;
+
+async function startSock() {
+    const { state, saveCreds } = await useMultiFileAuthState("sessions");
+
+    sock = makeWASocket({
+        auth: state,
+        printQRInTerminal: false
+    });
+
+    sock.ev.on("creds.update", saveCreds);
+}
+
+startSock();
+
+
+// ✅ API ROUTE
+app.get("/pair", async (req, res) => {
+    try {
+        const number = req.query.number;
+
+        if (!number) {
+            return res.json({ status: false, message: "Number required" });
+        }
+
+        const cleanNumber = number.replace(/[^0-9]/g, '');
+
+        if (cleanNumber.length < 8) {
+            return res.json({ status: false, message: "Invalid number" });
+        }
+
+        const code = await sock.requestPairingCode(cleanNumber);
+
+        res.json({
+            status: true,
+            code: code
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.json({
+            status: false,
+            message: "Error generating code"
+        });
+    }
+});
+
+app.listen(3000, () => console.log("Server running on port 3000"));
