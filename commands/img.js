@@ -24,11 +24,15 @@ async function img(message, client) {
 
         const apiUrl = `https://christus-api.vercel.app/image/Pinterest?query=${encodeURIComponent(query)}&limit=10`;
 
-        const response = await axios.get(apiUrl, { timeout: 15000 });
+        const response = await axios.get(apiUrl, {
+            timeout: 20000,
+            headers: {
+                "User-Agent": "Mozilla/5.0"
+            }
+        });
 
         if (
             !response.data ||
-            !response.data.status ||
             !Array.isArray(response.data.results) ||
             response.data.results.length === 0
         ) {
@@ -52,8 +56,17 @@ async function img(message, client) {
 
         for (const image of images) {
             try {
+                // TELECHARGE IMAGE (fix principal)
+                const imgBuffer = await axios.get(image.imageUrl, {
+                    responseType: "arraybuffer",
+                    timeout: 20000,
+                    headers: {
+                        "User-Agent": "Mozilla/5.0"
+                    }
+                });
+
                 await client.sendMessage(remoteJid, {
-                    image: { url: image.imageUrl },
+                    image: Buffer.from(imgBuffer.data),
                     caption:
                         `📷 ${query}\n` +
                         `${image.title && image.title !== "No title" ? image.title + "\n" : ""}` +
@@ -61,7 +74,9 @@ async function img(message, client) {
                 });
 
                 await new Promise(r => setTimeout(r, 1000));
+
             } catch (err) {
+                console.log("Image skip:", err.message);
                 continue;
             }
         }
