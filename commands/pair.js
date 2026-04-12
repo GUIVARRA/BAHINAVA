@@ -1,7 +1,7 @@
 const axios = require('axios');
 const { sleep } = require('../lib/myfunc');
 
-async function pairCommand(sock, chatId, message, q) {
+async function pairCommand(sock, chatId, message, q) { 
     try {
         if (!q) {
             return await sock.sendMessage(chatId, {
@@ -11,7 +11,7 @@ async function pairCommand(sock, chatId, message, q) {
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
                         newsletterJid: '120363161513685998@newsletter',
-                        newsletterName: 'GUIVARRA MD',
+                        newsletterName: 'BAHIRAVA MD',
                         serverMessageId: -1
                     }
                 }
@@ -30,7 +30,7 @@ async function pairCommand(sock, chatId, message, q) {
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
                         newsletterJid: '120363161513685998@newsletter',
-                        newsletterName: 'GUIVARRA MD',
+                        newsletterName: 'BAHIRAVA MD',
                         serverMessageId: -1
                     }
                 }
@@ -49,7 +49,7 @@ async function pairCommand(sock, chatId, message, q) {
                         isForwarded: true,
                         forwardedNewsletterMessageInfo: {
                             newsletterJid: '120363161513685998@newsletter',
-                            newsletterName: 'GUIVARRA MD',
+                            newsletterName: ‘BAHIRAVA MD',
                             serverMessageId: -1
                         }
                     }
@@ -63,22 +63,25 @@ async function pairCommand(sock, chatId, message, q) {
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
                         newsletterJid: '120363161513685998@newsletter',
-                        newsletterName: 'GUIVARRA MD',
+                        newsletterName: 'BAHIRAVA MD',
                         serverMessageId: -1
                     }
                 }
             });
 
             try {
-                const response = await axios.get(`https://knight-bot-paircode.onrender.com/code?number=${number}`);
+                // ✅ YOUR RAILWAY API HERE
+                const response = await axios.get(`https://bahinava-md-paircode.up.railway.app/code?number=${number}`);
                 
                 if (response.data && response.data.code) {
                     const code = response.data.code;
+
                     if (code === "Service Unavailable") {
                         throw new Error('Service Unavailable');
                     }
                     
                     await sleep(5000);
+
                     await sock.sendMessage(chatId, {
                         text: `Your pairing code: ${code}`,
                         contextInfo: {
@@ -86,16 +89,19 @@ async function pairCommand(sock, chatId, message, q) {
                             isForwarded: true,
                             forwardedNewsletterMessageInfo: {
                                 newsletterJid: '120363161513685998@newsletter',
-                                newsletterName: 'GUIVARRA MD',
+                                newsletterName: 'BAHIRAVA MD',
                                 serverMessageId: -1
                             }
                         }
                     });
+
                 } else {
                     throw new Error('Invalid response from server');
                 }
+
             } catch (apiError) {
                 console.error('API Error:', apiError);
+
                 const errorMessage = apiError.message === 'Service Unavailable' 
                     ? "Service is currently unavailable. Please try again later."
                     : "Failed to generate pairing code. Please try again later.";
@@ -107,15 +113,17 @@ async function pairCommand(sock, chatId, message, q) {
                         isForwarded: true,
                         forwardedNewsletterMessageInfo: {
                             newsletterJid: '120363161513685998@newsletter',
-                            newsletterName: 'GUIVARRA MD',
+                            newsletterName: 'BAHIRAVA MD',
                             serverMessageId: -1
                         }
                     }
                 });
             }
         }
+
     } catch (error) {
         console.error(error);
+
         await sock.sendMessage(chatId, {
             text: "An error occurred. Please try again later.",
             contextInfo: {
@@ -123,7 +131,7 @@ async function pairCommand(sock, chatId, message, q) {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'GUIVARRA MD',
+                    newsletterName: 'BAHIRAVA MD',
                     serverMessageId: -1
                 }
             }
@@ -131,4 +139,4 @@ async function pairCommand(sock, chatId, message, q) {
     }
 }
 
-module.exports = pairCommand; 
+module.exports = pairCommand;
